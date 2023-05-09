@@ -1,11 +1,14 @@
 version: '3'
 
+#To run the flask container
 services:
   web:
     build: .
     image: myflaskapp
     restart: always
     container_name: myflaskapp
+    
+    #This portion here is so you can edit the flask app as needed and just re-run docker compose
     volumes:
       - ./app:/docker-flask-test
     ports:
@@ -15,12 +18,14 @@ services:
     environment:
       FLASK_APP: view.py
       FLASK_ENV: development
-      #DATABASE_URL: postgres://postgres:password@db:5432/mydatabase
-
+      
+  #Runs the postgresql container
   db:
     image: flaskpostgresdb
     restart: always
     container_name: flaskdb
+    
+    #Fixed volume so you can keep the data in the database.
     volumes:
       - ./data:/var/lib/postgresql/data  
     environment:
