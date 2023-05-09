@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    image: myflaskapp
+    restart: always
+    container_name: myflaskapp
+    volumes:
+      - ./app:/docker-flask-test
+    ports:
+      - "443:5000"
+    depends_on:
+      - db
+    environment:
+      FLASK_APP: view.py
+      FLASK_ENV: development
+      #DATABASE_URL: postgres://postgres:password@db:5432/mydatabase
+
+  db:
+    image: flaskpostgresdb
+    restart: always
+    container_name: flaskdb
+    volumes:
+      - ./data:/var/lib/postgresql/data  
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mydatabase
